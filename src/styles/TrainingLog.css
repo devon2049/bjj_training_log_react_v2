@@ -1,0 +1,14 @@
+/* Custom styles for TrainingLog */
+.list-group-item {
+    border-radius: 0.25rem; /* Rounded corners */
+    margin-bottom: 1rem; /* Margin between entries */
+  }
+  
+  .list-group-item:hover {
+    background-color: #f8f9fa; /* Light background on hover */
+  }
+  
+  h2 {
+    color: #007bff; /* Primary color for heading */
+  }
+  

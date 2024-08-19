@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import TrainingLog from './components/TrainingLog';
+import LogEntryForm from './components/LogEntryForm';
+import Footer from './components/Footer';
+import NavBar from './components/NavBar';
+import About from './pages/About';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  const [logs, setLogs] = useState([]);
+
+  const addLog = (newLog) => {
+    setLogs([...logs, newLog]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <NavBar />
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<TrainingLog logs={logs} />} />
+            <Route path="/add-log" element={<LogEntryForm addLog={addLog} />} />
+            <Route path="/about" element={<About />} />  {/* Added About route */}
+            {/* <Route path="/training-log" element={<TrainingLog logs={logs} />} /> */}
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
