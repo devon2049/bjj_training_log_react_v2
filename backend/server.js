@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Use CORS to allow cross-origin requests, If you want to restrict access to only your (local) React app use the origin middleware as follows...
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'https://bjjtraininglog.netlify.app' }));
 
 app.use(express.json());
 
