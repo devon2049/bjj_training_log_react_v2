@@ -10,8 +10,7 @@ app.use(cors({ origin: 'https://bjjtraininglog.netlify.app' }));
 
 app.use(express.json());
 
-// Replace with your own MongoDB connection string
-const mongoURI = 'mongodb+srv://dcllive090:6Q3Xu1CytuOy7Iuh@cluster0.ufi6b.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI = process.env.MONGO_URI;
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
