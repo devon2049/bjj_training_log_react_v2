@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors'); // Import the cors package
 const app = express();
-const port = 5000;
+
+const port = process.env.PORT || 5000;
 
 // Use CORS to allow cross-origin requests, If you want to restrict access to only your (local) React app use the origin middleware as follows...
 app.use(cors({ origin: 'http://localhost:3000' }));
