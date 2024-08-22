@@ -18,7 +18,7 @@ function LogEntryForm({ addLog }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://bjj-training-log-react-v2.onrender.com', {
+      const response = await fetch('https://bjj-training-log-react-v2.onrender.com/log', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
