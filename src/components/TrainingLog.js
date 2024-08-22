@@ -3,6 +3,15 @@ import LogEntry from './LogEntry';
 import { Link } from 'react-router-dom';
 import '../styles/TrainingLog.css';
 
+// Helper function to format the date
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+
 function TrainingLog() {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +50,7 @@ function TrainingLog() {
       {mostRecentLog && (
         <div className="most-recent-log mb-4">
           <h3>Most Recent Entry</h3>
-          <p><strong>Date:</strong> {mostRecentLog.date}</p>
+          <p><strong>Date:</strong> {formatDate(mostRecentLog.date)}</p>
           <p><strong>Techniques Practiced:</strong> {mostRecentLog.techniques}</p>
           <p><strong>Progress:</strong> {mostRecentLog.progress}</p>
           <p><strong>Goals:</strong> {mostRecentLog.goals}</p>
