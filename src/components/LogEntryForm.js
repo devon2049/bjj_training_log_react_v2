@@ -17,9 +17,11 @@ function LogEntryForm({ addLog }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const logToSubmit = { ...log, date: log.date }; // Use the date as it is
-
+  
+    const localDate = new Date(log.date).toISOString(); // Convert to ISO string for consistent storage
+  
+    const logToSubmit = { ...log, date: localDate };
+  
     try {
       const response = await fetch('https://bjj-training-log-react-v2.onrender.com/log', {
         method: 'POST',
@@ -28,30 +30,29 @@ function LogEntryForm({ addLog }) {
         },
         body: JSON.stringify(logToSubmit),
       });
-
-      // Check if the response was not successful
+  
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      const result = await response.json(); // Get the response data
-      console.log('Log submitted:', result); // Log the result for debugging
-
-      addLog(logToSubmit); // Update the log state with the new entry
+  
+      const result = await response.json();
+      console.log('Log submitted:', result);
+  
+      addLog(logToSubmit);
       setLog({
         date: '',
         techniques: '',
         progress: '',
         goals: ''
-      }); // Clear form after submission
-
-      // Navigate to the Training Log page
+      });
+  
       navigate('/');
     } catch (error) {
-      console.error('Failed to submit log:', error); // Log the error
-      alert(`Failed to submit log: ${error.message}`); // Show an alert with the error message
+      console.error('Failed to submit log:', error);
+      alert(`Failed to submit log: ${error.message}`);
     }
   };
+  
 
   return (
     <div className="container mt-4">

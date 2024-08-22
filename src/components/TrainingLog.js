@@ -30,13 +30,14 @@ function TrainingLog() {
   // Get the most recent log entry
   const mostRecentLog = logs[logs.length - 1];
 
-  if (loading) return <p>Loading logs...</p>;
-  if (error) return <p>Error fetching logs: {error}</p>;
-
+  // Helper function to format the date
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString(); // Formats the date according to the local format
   };
+
+  if (loading) return <p>Loading logs...</p>;
+  if (error) return <p>Error fetching logs: {error}</p>;
 
   return (
     <div className="container mt-4">
