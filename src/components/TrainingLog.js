@@ -3,15 +3,6 @@ import LogEntry from './LogEntry';
 import { Link } from 'react-router-dom';
 import '../styles/TrainingLog.css';
 
-// Helper function to format the date
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${year}-${month}-${day}`;
-}
-
 function TrainingLog() {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -41,6 +32,11 @@ function TrainingLog() {
 
   if (loading) return <p>Loading logs...</p>;
   if (error) return <p>Error fetching logs: {error}</p>;
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString(); // Formats the date according to the local format
+  };
 
   return (
     <div className="container mt-4">

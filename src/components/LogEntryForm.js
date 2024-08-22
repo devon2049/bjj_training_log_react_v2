@@ -18,12 +18,7 @@ function LogEntryForm({ addLog }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Adjust the date to be in the local timezone
-    const localDate = new Date(log.date);
-    const adjustedDate = new Date(localDate.setHours(localDate.getHours() - localDate.getTimezoneOffset() / 60));
-    const formattedDate = adjustedDate.toISOString().split('T')[0];
-
-    const logToSubmit = { ...log, date: formattedDate };
+    const logToSubmit = { ...log, date: log.date }; // Use the date as it is
 
     try {
       const response = await fetch('https://bjj-training-log-react-v2.onrender.com/log', {
