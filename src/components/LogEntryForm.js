@@ -17,13 +17,21 @@ function LogEntryForm({ addLog }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Adjust the date to be in the local timezone
+    const localDate = new Date(log.date);
+    const adjustedDate = new Date(localDate.setHours(localDate.getHours() - localDate.getTimezoneOffset() / 60));
+    const formattedDate = adjustedDate.toISOString().split('T')[0];
+
+    const logToSubmit = { ...log, date: formattedDate };
+
     try {
       const response = await fetch('https://bjj-training-log-react-v2.onrender.com/log', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(log),
+        body: JSON.stringify(logToSubmit),
       });
 
       // Check if the response was not successful
@@ -34,7 +42,7 @@ function LogEntryForm({ addLog }) {
       const result = await response.json(); // Get the response data
       console.log('Log submitted:', result); // Log the result for debugging
 
-      addLog(log); // Update the log state with the new entry
+      addLog(logToSubmit); // Update the log state with the new entry
       setLog({
         date: '',
         techniques: '',
