@@ -33,6 +33,15 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
+app.get('/logs', async (req, res) => {
+  try {
+    const logs = await Log.find(); // Fetch all logs from the database
+    res.status(200).json(logs);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 const Log = require('./models/Log');
 
 app.post('/log', async (req, res) => {

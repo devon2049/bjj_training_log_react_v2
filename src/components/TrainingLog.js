@@ -1,11 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import LogEntry from './LogEntry';
 import { Link } from 'react-router-dom';
 import '../styles/TrainingLog.css';
 
-function TrainingLog({ logs }) {
+function TrainingLog() {
+  const [logs, setLogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLogs = async () => {
+      try {
+        const response = await fetch('https://bjj-training-log-react-v2.onrender.com/logs');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setLogs(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchLogs();
+  }, []);
+
   // Get the most recent log entry
   const mostRecentLog = logs[logs.length - 1];
+
+  if (loading) return <p>Loading logs...</p>;
+  if (error) return <p>Error fetching logs: {error}</p>;
 
   return (
     <div className="container mt-4">
