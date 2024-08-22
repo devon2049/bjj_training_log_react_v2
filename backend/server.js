@@ -35,12 +35,17 @@ app.get('/', (req, res) => {
 
 app.get('/logs', async (req, res) => {
   try {
-    const logs = await Log.find(); // Fetch all logs from the database
-    res.status(200).json(logs);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const logs = await Log.find().sort({ date: -1 }); // Sort logs by date descending
+    // Format the date if necessary
+    res.json(logs.map(log => ({
+      ...log.toObject(),
+      date: new Date(log.date).toLocaleDateString() // Convert to local date string if needed
+    })));
+  } catch (error) {
+    res.status(500).send('Server Error');
   }
 });
+
 
 const Log = require('./models/Log');
 

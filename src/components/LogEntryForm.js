@@ -18,7 +18,7 @@ function LogEntryForm({ addLog }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const localDate = new Date(log.date).toISOString(); // Convert to ISO string for consistent storage
+    const localDate = new Date(log.date).toISOString(); // Convert to ISO string
   
     const logToSubmit = { ...log, date: localDate };
   
