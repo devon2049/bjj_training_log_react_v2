@@ -1,10 +1,15 @@
+require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors');
+const connectDB = require('./config/db');
+const auth = require('./middleware/auth');
 const app = express();
+const Log = require('./models/Log'); // Keep this
 
-const port = process.env.PORT || 5000;
+// Connect to the database
+connectDB();
 
+// CORS setup
 const allowedOrigins = [
   'https://bjjtraininglog.netlify.app',
   'https://master--bjjtraininglog.netlify.app'
@@ -20,38 +25,33 @@ app.use(cors({
   }
 }));
 
-
+// Middleware to parse JSON
 app.use(express.json());
 
-const mongoURI = process.env.MONGO_URI;
+// Routes
+app.use('/api/auth', require('./routes/auth')); // Authentication route
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
-
+// Existing routes
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-app.get('/logs', async (req, res) => {
+// Protect these routes with the auth middleware
+app.get('/logs', auth, async (req, res) => {
   try {
-    const logs = await Log.find().sort({ date: -1 }); // Sort logs by date descending
-    // Format the date if necessary
+    const logs = await Log.find({ user: req.user }).sort({ date: -1 }); // Only get logs for the authenticated user
     res.json(logs.map(log => ({
       ...log.toObject(),
-      date: new Date(log.date).toLocaleDateString() // Convert to local date string if needed
+      date: new Date(log.date).toLocaleDateString()
     })));
   } catch (error) {
     res.status(500).send('Server Error');
   }
 });
 
-
-const Log = require('./models/Log');
-
-app.post('/log', async (req, res) => {
+app.post('/log', auth, async (req, res) => {
   try {
-    const newLog = new Log(req.body);
+    const newLog = new Log({ ...req.body, user: req.user }); // Attach user ID to the log entry
     const savedLog = await newLog.save();
     res.status(201).json(savedLog);
   } catch (err) {
@@ -59,7 +59,6 @@ app.post('/log', async (req, res) => {
   }
 });
 
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+// Define the port and start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
