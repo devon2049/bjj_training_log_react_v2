@@ -28,7 +28,7 @@ function TrainingLog() {
   }, []);
 
   // Get the most recent log entry
-  const mostRecentLog = logs[logs.length - 1];
+  const mostRecentLog = logs[0];
 
   // Helper function to format the date
   const formatDate = (dateStr) => {
