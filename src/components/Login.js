@@ -25,8 +25,8 @@ const Login = () => {
       // Set the token in axios headers for future requests
       setAuthToken(response.data.token);
 
-      // Redirect to a different page on successful login
-      navigate('/dashboard'); // Change this to the route you want to redirect to
+      // Redirect to the homepage on successful login
+      navigate('/'); // Redirect to the homepage
     } catch (err) {
       setError('Invalid credentials');
     }
