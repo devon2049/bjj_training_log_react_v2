@@ -13,13 +13,17 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      // Make a POST request to the login endpoint
+      const response = await axios.post('https://bjj-training-log-react-v2.onrender.com/api/auth/login', {
         email,
         password
       });
 
-      // Save the token to localStorage or context
+      // Save the token to localStorage
       localStorage.setItem('token', response.data.token);
+
+      // Set the token in axios headers for future requests
+      setAuthToken(response.data.token);
 
       // Redirect to a different page on successful login
       navigate('/dashboard'); // Change this to the route you want to redirect to

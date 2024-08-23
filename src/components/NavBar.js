@@ -20,6 +20,7 @@ function NavBar() {
             <li className="nav-item">
               <Link className="nav-link" to="/contact">Contact</Link>
             </li>
+            <li><Link to="/logout">Logout</Link></li>
           </ul>
         </div>
       </div>

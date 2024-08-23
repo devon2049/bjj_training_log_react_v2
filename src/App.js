@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
+import Logout from './components/Logout';
 import Header from './components/Header';
 import TrainingLog from './components/TrainingLog';
 import LogEntryForm from './components/LogEntryForm';
@@ -25,6 +26,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/" element={<TrainingLog logs={logs} />} />
             <Route path="/add-log" element={<LogEntryForm addLog={addLog} />} />
             <Route path="/about" element={<About />} />  {/* Added About route */}
