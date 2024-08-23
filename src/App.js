@@ -14,6 +14,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   const [logs, setLogs] = useState([]);
 
+  useEffect(() => {
+    // Check for token in localStorage and set it in axios headers
+    const token = localStorage.getItem('token');
+    if (token) {
+      setAuthToken(token);
+    }
+  }, []);
+
   const addLog = (newLog) => {
     setLogs([...logs, newLog]);
   };
